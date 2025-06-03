@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: onboarding
+    database: sample_database
+    schema: sandbox
+    tables:
+      - name: listings
+        identifier: raw_listings
+
+      - name: hosts
+        identifier: raw_hosts
+
+      - name: reviews
+        identifier: raw_reviews
+        loaded_at_field: date # データ鮮度の判定に使用するカラム名(TIMESTAMP型)
+        freshness:
+          warn_after: { count: 1, period: hour } # 1時間内の値が一つもない場合は警告を発生
+          error_after: { count: 24, period: hour } # 24時間内の値が一つもない場合はエラーを発生
